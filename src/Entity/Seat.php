@@ -19,17 +19,17 @@ class Seat
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=145)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
-    private $orderNumber;
+    private $order_number;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=445, nullable=true)
      */
     private $comment;
 
@@ -49,28 +49,33 @@ class Seat
     private $rotation;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="smallint", nullable=true)
      */
     private $locked;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="seat")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SubRoom", inversedBy="seats")
      */
-    private $room;
+    private $subRoom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="seat")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Row", inversedBy="seats")
+     */
+    private $row;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="seats")
      */
     private $category;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Entrance", mappedBy="seat")
      */
-    private $entrance;
+    private $entrances;
 
     public function __construct()
     {
-        $this->entrance = new ArrayCollection();
+        $this->entrances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,12 +97,12 @@ class Seat
 
     public function getOrderNumber(): ?int
     {
-        return $this->orderNumber;
+        return $this->order_number;
     }
 
-    public function setOrderNumber(int $orderNumber): self
+    public function setOrderNumber(int $order_number): self
     {
-        $this->orderNumber = $orderNumber;
+        $this->order_number = $order_number;
 
         return $this;
     }
@@ -107,7 +112,7 @@ class Seat
         return $this->comment;
     }
 
-    public function setComment(string $comment): self
+    public function setComment(?string $comment): self
     {
         $this->comment = $comment;
 
@@ -150,38 +155,38 @@ class Seat
         return $this;
     }
 
-    public function getLocked(): ?bool
+    public function getLocked(): ?int
     {
         return $this->locked;
     }
 
-    public function setLocked(?bool $locked): self
+    public function setLocked(?int $locked): self
     {
         $this->locked = $locked;
 
         return $this;
     }
 
-    public function getSeat(): ?Room
+    public function getSubRoom(): ?SubRoom
     {
-        return $this->seat;
+        return $this->subRoom;
     }
 
-    public function setSeat(?Room $seat): self
+    public function setSubRoom(?SubRoom $subRoom): self
     {
-        $this->seat = $seat;
+        $this->subRoom = $subRoom;
 
         return $this;
     }
 
-    public function getRoom(): ?Room
+    public function getRow(): ?Row
     {
-        return $this->room;
+        return $this->row;
     }
 
-    public function setRoom(?Room $room): self
+    public function setRow(?Row $row): self
     {
-        $this->room = $room;
+        $this->row = $row;
 
         return $this;
     }
@@ -201,15 +206,15 @@ class Seat
     /**
      * @return Collection|Entrance[]
      */
-    public function getEntrance(): Collection
+    public function getEntrances(): Collection
     {
-        return $this->entrance;
+        return $this->entrances;
     }
 
     public function addEntrance(Entrance $entrance): self
     {
-        if (!$this->entrance->contains($entrance)) {
-            $this->entrance[] = $entrance;
+        if (!$this->entrances->contains($entrance)) {
+            $this->entrances[] = $entrance;
             $entrance->setSeat($this);
         }
 
@@ -218,8 +223,8 @@ class Seat
 
     public function removeEntrance(Entrance $entrance): self
     {
-        if ($this->entrance->contains($entrance)) {
-            $this->entrance->removeElement($entrance);
+        if ($this->entrances->contains($entrance)) {
+            $this->entrances->removeElement($entrance);
             // set the owning side to null (unless already changed)
             if ($entrance->getSeat() === $this) {
                 $entrance->setSeat(null);

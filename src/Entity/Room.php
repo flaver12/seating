@@ -19,23 +19,23 @@ class Room
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=145)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=455, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Seat", mappedBy="room")
+     * @ORM\OneToMany(targetEntity="App\Entity\SubRoom", mappedBy="room")
      */
-    private $seat;
+    private $subRooms;
 
     public function __construct()
     {
-        $this->seat = new ArrayCollection();
+        $this->subRooms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,30 +68,30 @@ class Room
     }
 
     /**
-     * @return Collection|Seat[]
+     * @return Collection|SubRoom[]
      */
-    public function getSeat(): Collection
+    public function getSubRooms(): Collection
     {
-        return $this->seat;
+        return $this->subRooms;
     }
 
-    public function addSeat(Seat $seat): self
+    public function addSubRoom(SubRoom $subRoom): self
     {
-        if (!$this->seat->contains($seat)) {
-            $this->seat[] = $seat;
-            $seat->setSeat($this);
+        if (!$this->subRooms->contains($subRoom)) {
+            $this->subRooms[] = $subRoom;
+            $subRoom->setRoom($this);
         }
 
         return $this;
     }
 
-    public function removeSeat(Seat $seat): self
+    public function removeSubRoom(SubRoom $subRoom): self
     {
-        if ($this->seat->contains($seat)) {
-            $this->seat->removeElement($seat);
+        if ($this->subRooms->contains($subRoom)) {
+            $this->subRooms->removeElement($subRoom);
             // set the owning side to null (unless already changed)
-            if ($seat->getSeat() === $this) {
-                $seat->setSeat(null);
+            if ($subRoom->getRoom() === $this) {
+                $subRoom->setRoom(null);
             }
         }
 

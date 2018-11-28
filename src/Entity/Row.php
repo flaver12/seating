@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RowRepository")
  */
-class Category
+class Row
 {
     /**
      * @ORM\Id()
@@ -24,29 +24,18 @@ class Category
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
-     */
-    private $color;
-
-    /**
-     * @ORM\Column(type="string", length=45, nullable=true)
+     * @ORM\Column(type="string", length=345, nullable=true)
      */
     private $comment;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Seat", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Seat", mappedBy="row")
      */
     private $seats;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="category")
-     */
-    private $tickets;
 
     public function __construct()
     {
         $this->seats = new ArrayCollection();
-        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,18 +51,6 @@ class Category
     public function setName(?string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    public function setColor(?string $color): self
-    {
-        $this->color = $color;
 
         return $this;
     }
@@ -102,7 +79,7 @@ class Category
     {
         if (!$this->seats->contains($seat)) {
             $this->seats[] = $seat;
-            $seat->setCategory($this);
+            $seat->setRow($this);
         }
 
         return $this;
@@ -113,39 +90,8 @@ class Category
         if ($this->seats->contains($seat)) {
             $this->seats->removeElement($seat);
             // set the owning side to null (unless already changed)
-            if ($seat->getCategory() === $this) {
-                $seat->setCategory(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Ticket[]
-     */
-    public function getTickets(): Collection
-    {
-        return $this->tickets;
-    }
-
-    public function addTicket(Ticket $ticket): self
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets[] = $ticket;
-            $ticket->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): self
-    {
-        if ($this->tickets->contains($ticket)) {
-            $this->tickets->removeElement($ticket);
-            // set the owning side to null (unless already changed)
-            if ($ticket->getCategory() === $this) {
-                $ticket->setCategory(null);
+            if ($seat->getRow() === $this) {
+                $seat->setRow(null);
             }
         }
 
