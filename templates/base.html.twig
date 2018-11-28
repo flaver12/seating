@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div id="app">
+            {% block body %}{% endblock %}
+        </div>
+        <script type="text/javascript" src="{{ asset('build/runtime.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('build/js/app.js') }}"></script>
+    </body>
+</html>
