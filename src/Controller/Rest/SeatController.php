@@ -18,7 +18,7 @@ use App\Repository\SeatRepository;
  * handles all calls for the seats
  *
  * @author Flavio Kleiber <zerberain@outlook.com>
- * @package Api
+ * @package Controller.Api
  */
 class SeatController extends FOSRestController {
 
