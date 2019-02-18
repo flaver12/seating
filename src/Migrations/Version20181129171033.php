@@ -17,7 +17,7 @@ final class Version20181129171033 extends AbstractMigration
 
         $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(145) DEFAULT NULL, color VARCHAR(10) DEFAULT NULL, comment VARCHAR(45) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE entrance (id INT AUTO_INCREMENT NOT NULL, status_id INT DEFAULT NULL, ticket_id INT DEFAULT NULL, seat_id INT DEFAULT NULL, INDEX IDX_87DA61896BF700BD (status_id), INDEX IDX_87DA6189700047D2 (ticket_id), INDEX IDX_87DA6189C1DAFE35 (seat_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE `group` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(155) DEFAULT NULL, color VARCHAR(10) DEFAULT NULL, comment VARCHAR(454) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE `groups` (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(155) DEFAULT NULL, color VARCHAR(10) DEFAULT NULL, comment VARCHAR(454) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE guest (id INT AUTO_INCREMENT NOT NULL, ticket_id INT DEFAULT NULL, groups_id INT DEFAULT NULL, first_name VARCHAR(415) NOT NULL, last_name VARCHAR(455) NOT NULL, email VARCHAR(245) DEFAULT NULL, secret VARCHAR(245) DEFAULT NULL, comment VARCHAR(545) DEFAULT NULL, subg_id INT DEFAULT NULL, INDEX IDX_ACB79A35700047D2 (ticket_id), INDEX IDX_ACB79A35F373DCF (groups_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE room (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(145) NOT NULL, image VARCHAR(455) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE row (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(145) DEFAULT NULL, comment VARCHAR(345) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
@@ -54,7 +54,7 @@ final class Version20181129171033 extends AbstractMigration
         $this->addSql('ALTER TABLE guest DROP FOREIGN KEY FK_ACB79A35700047D2');
         $this->addSql('DROP TABLE category');
         $this->addSql('DROP TABLE entrance');
-        $this->addSql('DROP TABLE `group`');
+        $this->addSql('DROP TABLE `groups`');
         $this->addSql('DROP TABLE guest');
         $this->addSql('DROP TABLE room');
         $this->addSql('DROP TABLE row');
